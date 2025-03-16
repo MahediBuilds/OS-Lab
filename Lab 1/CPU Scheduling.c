@@ -129,7 +129,7 @@ int main() {
 
     printf("Enter Arrival Time and Burst Time:\n");
     for (int i = 0; i < n; i++) {
-        p[i].id = i + 1; // Auto-generate PID
+        p[i].id = i + 1; 
         scanf("%d %d", &p[i].arrival, &p[i].burst);
         p[i].remaining = p[i].burst;
         p[i].waiting = p[i].turnaround = p[i].completion = p[i].response = p[i].started = 0;
