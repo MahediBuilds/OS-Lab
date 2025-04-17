@@ -7,13 +7,14 @@ int main() {
     printf("Enter number of processes and resources:\n");
     scanf("%d %d", &n, &m);
 
-    int alloc[n][m], request[n][m], avail[m];
+    int allocation[n][m], request[n][m], available[m];
+    int work[m];
     bool finish[n];
 
     printf("Enter allocation matrix:\n");
     for (i = 0; i < n; i++)
         for (j = 0; j < m; j++)
-            scanf("%d", &alloc[i][j]);
+            scanf("%d", &allocation[i][j]);
 
     printf("Enter request matrix:\n");
     for (i = 0; i < n; i++)
@@ -21,43 +22,44 @@ int main() {
             scanf("%d", &request[i][j]);
 
     printf("Enter available matrix:\n");
-    for (i = 0; i < m; i++)
-        scanf("%d", &avail[i]);
+    for (i = 0; i < m; i++) {
+        scanf("%d", &available[i]);
+        work[i] = available[i];
+    }
 
     for (i = 0; i < n; i++) {
-        bool is_zero = true;
+        bool zero_allocation = true;
         for (j = 0; j < m; j++) {
-            if (alloc[i][j] != 0) {
-                is_zero = false;
+            if (allocation[i][j] != 0) {
+                zero_allocation = false;
                 break;
             }
         }
-        finish[i] = is_zero;
+        finish[i] = zero_allocation;
     }
 
-    bool changed;
+    bool found_process;
     do {
-        changed = false;
+        found_process = false;
         for (i = 0; i < n; i++) {
             if (!finish[i]) {
-                bool can_finish = true;
+                bool can_allocate = true;
                 for (j = 0; j < m; j++) {
-                    if (request[i][j] > avail[j]) {
-                        can_finish = false;
+                    if (request[i][j] > work[j]) {
+                        can_allocate = false;
                         break;
                     }
                 }
-
-                if (can_finish) {
+                if (can_allocate) {
                     for (k = 0; k < m; k++)
-                        avail[k] += alloc[i][k];
+                        work[k] += allocation[i][k];
                     finish[i] = true;
-                    changed = true;
                     printf("Process %d can finish.\n", i);
+                    found_process = true;
                 }
             }
         }
-    } while (changed);
+    } while (found_process);
 
     bool deadlock = false;
     for (i = 0; i < n; i++) {
@@ -74,3 +76,4 @@ int main() {
 
     return 0;
 }
+
