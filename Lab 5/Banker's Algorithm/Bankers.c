@@ -3,27 +3,32 @@
 
 int main() {
     int n, m, i, j, k;
-    printf("Enter number of processes and resources:\n");
-    scanf("%d %d", &n, &m);
+    printf("Enter number of processes: ");
+    scanf("%d", &n);
+    printf("Enter number of resources: ");
+    scanf("%d", &m);
 
     int alloc[n][m], max[n][m], avail[m];
     int need[n][m];
 
-    printf("Enter allocation matrix:\n");
-    for (i = 0; i < n; i++)
+    printf("Enter allocation matrix (%d x %d):\n", n, m);
+    for (i = 0; i < n; i++) {
+        printf("Allocation for process %d: ", i);
         for (j = 0; j < m; j++)
             scanf("%d", &alloc[i][j]);
+    }
 
-    printf("Enter max matrix:\n");
-    for (i = 0; i < n; i++)
+    printf("Enter max matrix (%d x %d):\n", n, m);
+    for (i = 0; i < n; i++) {
+        printf("Max for process %d: ", i);
         for (j = 0; j < m; j++)
             scanf("%d", &max[i][j]);
+    }
 
-    printf("Enter available matrix:\n");
+    printf("Enter available resources (%d values): ", m);
     for (i = 0; i < m; i++)
         scanf("%d", &avail[i]);
 
-    // Calculate need matrix
     for (i = 0; i < n; i++)
         for (j = 0; j < m; j++)
             need[i][j] = max[i][j] - alloc[i][j];
@@ -71,3 +76,4 @@ int main() {
 
     return 0;
 }
+
